@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -25,8 +26,9 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @Email
     private String username;
-
+    @Size(min = 3, max = 50, message = "Password must be between 3 and 50 characters long.")
     private String password;
     private boolean accountExpired;
     private boolean accountLock;
@@ -35,11 +37,14 @@ public class User implements UserDetails {
     private String activateToken;
     private LocalDateTime tokenExpiredTime;
 
+    @NotBlank(message = "Name must be not empty.")
     private String name;
+    @NotBlank(message = "Surname must be not empty.")
     private String surname;
+    @NotBlank(message = "Phone number must be not empty.")
     private String phone;
     private String address;
-    
+
     @Column(name = "roles")
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
