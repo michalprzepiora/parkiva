@@ -28,7 +28,7 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     @Email
     private String username;
-    @Size(min = 3, max = 50, message = "Password must be between 3 and 50 characters long.")
+    @NotNull(message = "Password must be between 3 and 50 characters long.")
     private String password;
     private boolean accountExpired;
     private boolean accountLock;
