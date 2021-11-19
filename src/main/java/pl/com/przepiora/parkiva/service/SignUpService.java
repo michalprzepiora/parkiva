@@ -1,7 +1,7 @@
 package pl.com.przepiora.parkiva.service;
 
-import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -9,32 +9,32 @@ import pl.com.przepiora.parkiva.model.Role;
 import pl.com.przepiora.parkiva.model.User;
 import pl.com.przepiora.parkiva.repository.RoleRepository;
 import pl.com.przepiora.parkiva.repository.UserRepository;
+import pl.com.przepiora.parkiva.schedulerTask.RemoveNonActiveAccount;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SignUpService {
 
+    private static final long TIME_MS_TO_ACTIVATE = 900_000; //15 min to activate. Otherwise account will be deleted.
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private MailService mailService;
     private RoleRepository roleRepository;
+    private ThreadPoolTaskScheduler threadPoolTaskScheduler;
 
     @Autowired
     public SignUpService(UserRepository userRepository, PasswordEncoder passwordEncoder, MailService mailService,
-                         RoleRepository roleRepository) {
+                         RoleRepository roleRepository, ThreadPoolTaskScheduler threadPoolTaskScheduler) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.mailService = mailService;
         this.roleRepository = roleRepository;
+        this.threadPoolTaskScheduler = threadPoolTaskScheduler;
     }
 
-    public User signUp(String email, String password1, String password2, String token, String name, String surname, String phone, String address) {
+    public void signUp(String email, String password1, String password2, String token, String name, String surname, String phone, String address) {
         Optional<User> userOptional = userRepository.findByUsername(email);
         Assert.isTrue(userOptional.isEmpty(), "The username is already used.");
         Assert.notNull(password1, "Password 1 can not be a null.");
@@ -55,7 +55,8 @@ public class SignUpService {
         userRoleOptional.ifPresent(role -> user.setRoles(new HashSet<>(Collections.singleton(role))));
         userRepository.save(user);
         mailService.sendActivationLink(email, token);
-        return user;
+        RemoveNonActiveAccount task = new RemoveNonActiveAccount(userRepository, user.getId());
+        threadPoolTaskScheduler.schedule(task, new Date(System.currentTimeMillis() + TIME_MS_TO_ACTIVATE));
     }
 
     public void confirmMail(String token) {
