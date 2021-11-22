@@ -1,8 +1,6 @@
 package pl.com.przepiora.parkiva.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -11,6 +9,8 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class Role {
     @Transient
     public static final String USER = "USER";
@@ -21,7 +21,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    String value;
+    private String value;
 
     @Column(name = "users")
     @ManyToMany(mappedBy = "roles")
