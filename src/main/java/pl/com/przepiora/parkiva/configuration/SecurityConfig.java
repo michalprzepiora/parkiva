@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().ignoringAntMatchers("h2-console/**")
                 .and().formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/user/panel/home")
+                .defaultSuccessUrl("/user/panel/home", true)
 //                .successForwardUrl("/user/panel/home")
                 .usernameParameter("login")
                 .passwordParameter("password")

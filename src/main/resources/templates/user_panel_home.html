@@ -9,36 +9,72 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Parkiva - Login</title>
 </head>
 
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Parkiva</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+    <!-- NAWBAR start -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Parkiva</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Payment</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Park history</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/logout">Logout</a>
-                </li>
-            </ul>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Payment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Park history</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- NAWBAR end -->
+
+
+    <div class="container shadow p-3">
+        <p></p>
+        <div class="row m-5">
+            <div class="col-xl-4">
+                <b>E-mail:</b>
+                <p th:text="${email}"></p>
+            </div>
+            <div class="col-xl-4">
+                <b>Name:</b>
+                <p th:text="${name}"></p>
+            </div>
+            <div class="col-xl-4">
+                <b>Surname:</b>
+                <p th:text="${surname}"></p>
+            </div>
+
+            <div class="col-xl-4">
+                <b>Phone:</b>
+                <p th:text="${phone}"></p>
+            </div>
+            <div class="col-xl-4">
+                <b>Address:</b>
+                <p th:text="${address}"></p>
+            </div>
+            <div class="col-xl-4">
+                <b>Roles:</b>
+                <p th:text="${rolesString}"></p>
+            </div>
         </div>
     </div>
-</nav>
+
+
+
 </body>
