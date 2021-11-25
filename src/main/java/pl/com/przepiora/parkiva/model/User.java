@@ -26,9 +26,7 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    @Email
     private String username;
-    @NotNull(message = "Password must be between 3 and 50 characters long.")
     private String password;
     private boolean accountExpired;
     private boolean accountLock;
@@ -36,12 +34,8 @@ public class User implements UserDetails {
     private boolean enabled;
     private String activateToken;
     private LocalDateTime tokenExpiredTime;
-
-    @NotBlank(message = "Name must be not empty.")
     private String name;
-    @NotBlank(message = "Surname must be not empty.")
     private String surname;
-    @NotBlank(message = "Phone number must be not empty.")
     private String phone;
     private String address;
 

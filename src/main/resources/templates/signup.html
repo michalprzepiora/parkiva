@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <!-- Required meta tags -->
@@ -15,54 +15,47 @@
 
 <body>
     <h1 class="text-center">Register new user</h1>
-    <form action="/signup" method='POST' class="needs-validation" novalidate>
+    <!--<form action="/signup" method='POST' class="needs-validation" novalidate>-->
+    <form action="/signup" method='POST' th:object="${newUser}" novalidate>
+
         <!-- <form class="was-validated" novalidate> -->
 
         <div class="container my-5 shadow p-3 mb-5 bg-body rounded">
             <div class="row my-2">
                 <div class="col-lg-4">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" name="username">
-                    <div class="valid-feedback"> Looks good! </div>
-                    <div class="invalid-feedback"> Please choose a valid e-mail address using @. </div>
+                    <input type="email" class="form-control" id="email" name="username" th:field="*{username}">
                 </div>
                 <div class="col-lg-4 ">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
-                    <div class="valid-feedback"> Looks good! </div>
-                    <div class="invalid-feedback"> Name is required. </div>
+                    <input type="text" class="form-control" id="name" name="name" th:field="*{name}">
+
                 </div>
                 <div class="col-lg-4 ">
                     <label for="surname" class="form-label">Surname</label>
-                    <input type="text" class="form-control" id="surname" name="surname" required>
-                    <div class="valid-feedback"> Looks good! </div>
-                    <div class="invalid-feedback"> Surname is required.</div>
+                    <input type="text" class="form-control" id="surname" name="surname" th:field="*{surname}">
                 </div>
             </div>
             <div class="row my-2">
                 <div class="col-lg-4 ">
                     <label for="phone" class="form-label">Phone number</label>
-                    <input type="text" class="form-control" id="phone" name="phone" required>
-                    <div class="valid-feedback"> Looks good! </div>
-                    <div class="invalid-feedback"> Phone number is required.</div>
+                    <input type="text" class="form-control" id="phone" name="phone" th:field="*{phone}">
                 </div>
                 <div class="col-lg-8 ">
                     <label for="address" class="form-label">Address(optional)</label>
-                    <input type="text" class="form-control" id="address" name="address">
+                    <input type="text" class="form-control" id="address" name="address" th:field="*{address}">
                 </div>
             </div>
             <div class="row my-2">
                 <div class="col-lg-6 ">
                     <label for="password1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password1" name="password1" required>
-                    <div class="valid-feedback"> Looks good! </div>
-                    <div class="invalid-feedback"> Password number is required.</div>
+                    <input type="password" class="form-control" id="password1" name="password1">
+
                 </div>
                 <div class="col-lg-6">
                     <label for="password2" class="form-label">Re-type password</label>
-                    <input type="password" class="form-control" id="password2" name="password2" required>
-                    <div class="valid-feedback"> Looks good! </div>
-                    <div class="invalid-feedback"> Re-type password number is required.</div>
+                    <input type="password" class="form-control" id="password2" name="password2">
+
                 </div>
             </div>
             <div class="row">
@@ -96,6 +89,11 @@
                     }, false)
                 })
         })()
+
+
+
+
+
 
     </script>
 </body>
