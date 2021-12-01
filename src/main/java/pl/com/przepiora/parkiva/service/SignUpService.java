@@ -71,4 +71,8 @@ public class SignUpService {
         user.setTokenExpiredTime(null);
         userRepository.save(user);
     }
+
+    public boolean isUsernameIsAlreadyUsed(String userName) {
+        return userRepository.findByUsername(userName).isPresent();
+    }
 }
