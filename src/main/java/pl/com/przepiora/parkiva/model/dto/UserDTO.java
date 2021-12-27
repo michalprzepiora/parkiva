@@ -1,11 +1,15 @@
 package pl.com.przepiora.parkiva.model.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class UserDTO {
 
     @Email(message = "Email must be not null and valid formatted - using @")

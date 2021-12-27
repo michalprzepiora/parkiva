@@ -5,7 +5,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pl.com.przepiora.parkiva.model.User;
 import pl.com.przepiora.parkiva.service.UserService;
 
 import java.util.Map;
@@ -26,5 +25,12 @@ public class UserPanelController {
         modelAndView.setViewName("user_panel_home");
         modelAndView.addAllObjects(userDataMap);
         return modelAndView;
+    }
+
+    @GetMapping("user/panel/add_car")
+    public ModelAndView addCar(ModelAndView modelAndView) {
+        modelAndView.setViewName("user_panel_add_car");
+        return modelAndView;
+
     }
 }
