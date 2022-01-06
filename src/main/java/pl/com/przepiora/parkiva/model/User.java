@@ -43,7 +43,7 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
     private Set<Role> roles;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Car> cars;
 
 
@@ -125,6 +125,18 @@ public class User implements UserDetails {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public void addCar(Car car) {
+        cars.add(car);
+    }
+
+    public boolean removeCar(Car car) {
+        if (cars.contains(car)) {
+            cars.remove(car);
+            return true;
+        }
+        return false;
     }
 
 }

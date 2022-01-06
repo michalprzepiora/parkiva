@@ -90,43 +90,78 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="addCarModal" tabindex="-1" aria-labelledby="addCarModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addCarModalLabel">Add car</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
+    <form class="needs-validation" action="/user/panel/add_car" th:action="@{/user/panel/add_car}" method='POST'
+        th:object="${newCar}" novalidate>
+        <div class="modal fade" id="addCarModal" tabindex="-1" aria-labelledby="addCarModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCarModalLabel">Add car</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
 
 
                         <div class="mb-3">
                             <label for="markInput" class="form-label">Mark</label>
-                            <input type="text" class="form-control" id="markInput" aria-describedby="emailHelp">
+                            <input type="text" class="form-control" id="markInput" th:field="*{mark}"
+                                aria-describedby="emailHelp">
+                            <div class="valid-feedback"> Looks good! </div>
+                            <div class="invalid-feedback"> Mark is required </div>
                         </div>
                         <div class="mb-3">
                             <label for="modelInput" class="form-label">Model</label>
-                            <input type="text" class="form-control" id="modelInput" aria-describedby="emailHelp">
+                            <input type="text" class="form-control" id="modelInput" th:field="*{model}"
+                                aria-describedby="emailHelp">
+                            <div class="valid-feedback"> Looks good! </div>
+                            <div class="invalid-feedback"> Model is required.</div>
                         </div>
                         <div class="mb-3">
                             <label for="colorInput" class="form-label">Color</label>
-                            <input type="text" class="form-control" id="colorInput" aria-describedby="emailHelp">
+                            <input type="text" class="form-control" id="colorInput" th:field="*{color}"
+                                aria-describedby="emailHelp">
+                            <div class="valid-feedback"> Looks good! </div>
+                            <div class="invalid-feedback"> Colour is required.</div>
                         </div>
-
-                    </form>
-
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                        <div class="mb-3">
+                            <label for="registrationNumberInput" class="form-label"><b>Registration number</b></label>
+                            <input type="text" class="form-control" id="registrationNumberInput"
+                                th:field="*{registrationNumber}" aria-describedby="emailHelp">
+                            <div class="valid-feedback"> Looks good! </div>
+                            <div class="invalid-feedback"> Registartion number is required.</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
 
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
 </body>
 
 </html>

@@ -2,8 +2,10 @@ package pl.com.przepiora.parkiva.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import pl.com.przepiora.parkiva.model.Car;
 import pl.com.przepiora.parkiva.model.Role;
 import pl.com.przepiora.parkiva.model.User;
+import pl.com.przepiora.parkiva.model.dto.CarDTO;
 import pl.com.przepiora.parkiva.repository.UserRepository;
 
 import java.util.HashMap;
@@ -35,6 +37,22 @@ public class UserService {
         }
         result.put("rolesString", removeTwoLastChars(rolesBuilder.toString()));
         return result;
+    }
+
+    public void addCarToUser(String username, CarDTO carDTO) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (userOptional.isEmpty()) {
+            throw new IllegalArgumentException("User: " + username + " is not exist.");
+        }
+        Car car = Car.builder().mark(carDTO.getMark())
+                .model(carDTO.getModel())
+                .color(carDTO.getColor())
+                .registrationNumber(carDTO.getRegistrationNumber())
+                .build();
+        User user = userOptional.get();
+        user.addCar(car);
+        userRepository.save(user);
+
     }
 
     private String removeTwoLastChars(String words) {

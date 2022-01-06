@@ -68,15 +68,15 @@ public class SignUpController {
         return modelAndView;
     }
 
-    private List<String> getErrorMessages(Errors errors) {
-        return errors.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
-    }
-
     @GetMapping("/confirm_mail")
     public ModelAndView confirmMail(ModelAndView modelAndView, @RequestParam("token") String token) {
         signUpService.confirmMail(token);
         modelAndView.setViewName("user_activated");
         return modelAndView;
+    }
+
+    private List<String> getErrorMessages(Errors errors) {
+        return errors.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
     }
 
 }
