@@ -2,17 +2,20 @@ package pl.com.przepiora.parkiva.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import pl.com.przepiora.parkiva.model.User;
 import pl.com.przepiora.parkiva.model.dto.CarDTO;
 import pl.com.przepiora.parkiva.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class UserPanelController {
@@ -26,10 +29,16 @@ public class UserPanelController {
     @GetMapping("user/panel/home")
     public ModelAndView userPanelHome(ModelAndView modelAndView) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Map<String, String> userDataMap = userService.findUserDataByUsername(authentication.getName());
+//        Map<String, String> userDataMap = userService.findUserDataByUsername(authentication.getName());
+        Optional<User> userOptional = userService.findUserByName(authentication.getName());
+        if (userOptional.isEmpty()) {
+            throw new UsernameNotFoundException("Can't find a given username.");
+        }
+        User user = userOptional.get();
+        modelAndView.addObject("user", user);
         modelAndView.setViewName("user_panel_home");
         modelAndView.addObject("newCar", new CarDTO());
-        modelAndView.addAllObjects(userDataMap);
+//        modelAndView.addAllObjects(userDataMap);
         return modelAndView;
     }
 

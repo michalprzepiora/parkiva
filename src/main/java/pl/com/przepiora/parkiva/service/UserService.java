@@ -55,6 +55,10 @@ public class UserService {
 
     }
 
+    public Optional<User> findUserByName(String username) {
+        return userRepository.findByUsername(username);
+    }
+
     private String removeTwoLastChars(String words) {
         if (words.length() > 2) {
             return words.substring(0, words.length() - 2);
