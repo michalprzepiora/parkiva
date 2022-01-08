@@ -1,11 +1,13 @@
 package pl.com.przepiora.parkiva.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import pl.com.przepiora.parkiva.model.Car;
 import pl.com.przepiora.parkiva.model.Role;
 import pl.com.przepiora.parkiva.model.User;
 import pl.com.przepiora.parkiva.model.dto.CarDTO;
+import pl.com.przepiora.parkiva.repository.CarRepository;
 import pl.com.przepiora.parkiva.repository.UserRepository;
 
 import java.util.HashMap;
@@ -15,9 +17,11 @@ import java.util.Optional;
 @Service
 public class UserService {
     private UserRepository userRepository;
+    private CarRepository carRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, CarRepository carRepository) {
         this.userRepository = userRepository;
+        this.carRepository = carRepository;
     }
 
     public Map<String, String> findUserDataByUsername(String userName) {
@@ -47,7 +51,7 @@ public class UserService {
         Car car = Car.builder().mark(carDTO.getMark())
                 .model(carDTO.getModel())
                 .color(carDTO.getColor())
-                .registrationNumber(carDTO.getRegistrationNumber())
+                .registrationNumber(carDTO.getRegistrationNumber().toUpperCase().replace(" ", ""))
                 .build();
         User user = userOptional.get();
         user.addCar(car);
@@ -57,6 +61,13 @@ public class UserService {
 
     public Optional<User> findUserByName(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public void checkRegistrationNumberAlreadyTaken(String registrationNumber) {
+        Optional<Car> registrationNumberOptional = carRepository.findByRegistrationNumber(registrationNumber.toUpperCase().replace(" ", ""));
+        if (registrationNumberOptional.isPresent()) {
+            throw new IllegalArgumentException("That registration number: " + registrationNumber + " is already taken.");
+        }
     }
 
     private String removeTwoLastChars(String words) {

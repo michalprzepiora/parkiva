@@ -29,7 +29,6 @@ public class UserPanelController {
     @GetMapping("user/panel/home")
     public ModelAndView userPanelHome(ModelAndView modelAndView) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        Map<String, String> userDataMap = userService.findUserDataByUsername(authentication.getName());
         Optional<User> userOptional = userService.findUserByName(authentication.getName());
         if (userOptional.isEmpty()) {
             throw new UsernameNotFoundException("Can't find a given username.");
@@ -38,7 +37,6 @@ public class UserPanelController {
         modelAndView.addObject("user", user);
         modelAndView.setViewName("user_panel_home");
         modelAndView.addObject("newCar", new CarDTO());
-//        modelAndView.addAllObjects(userDataMap);
         return modelAndView;
     }
 
@@ -49,6 +47,7 @@ public class UserPanelController {
         modelAndView.setViewName("redirect:home");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = (String) authentication.getPrincipal();
+        userService.checkRegistrationNumberAlreadyTaken(newCar.getRegistrationNumber());
         userService.addCarToUser(userName, newCar);
         return modelAndView;
 
